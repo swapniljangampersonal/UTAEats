@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/totalCostLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total: " />
+
+    <TextView
+        android:id="@+id/totalCost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$XX.00" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Payment Method"
+        android:textColor="@color/titleBarColor"
+        android:textStyle="bold" />
+
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/zelle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/cash"
+            android:checked="true"
+            android:text="Zelle" />
+
+        <RadioButton
+            android:id="@+id/cash"
+            android:layout_width="82dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/zelle"
+            android:text="Cash" />
+    </RadioGroup>
+
+    <RelativeLayout
+        android:layout_width="86dp"
+        android:layout_height="82dp">
+
+        <Button
+            android:id="@+id/continuePayment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/cancelPayment"
+            android:text="CONTINUE" />
+
+        <Button
+            android:id="@+id/cancelPayment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/continuePayment"
+            android:text="CANCEL" />
+    </RelativeLayout>
+
+
+</LinearLayout>

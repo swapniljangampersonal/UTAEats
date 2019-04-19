@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">UTAEats</string>
+    <string name="title_activity_cart">CartActivity</string>
+    <string name="title_activity_payment">PaymentActivity</string>
+</resources>
