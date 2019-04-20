@@ -31,6 +31,8 @@ public class CustomListView extends ArrayAdapter<Item> {
             listItem = LayoutInflater.from(mContext).inflate(R.layout.listview_layout,parent,false);
         }
         Item item = items.get(position);
+        ImageView imageView = listItem.findViewById(R.id.icon);
+        Glide.with(this.mContext).load(item.getImage()).into(imageView);
 
         TextView itemName = listItem.findViewById(R.id.firstLine);
         itemName.setText(item.getItemName());
