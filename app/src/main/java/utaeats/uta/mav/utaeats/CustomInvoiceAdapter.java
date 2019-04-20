@@ -1,6 +1,7 @@
 package utaeats.uta.mav.utaeats;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,16 +10,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 
-public class CustomListView extends ArrayAdapter<Item> {
-
+public class CustomInvoiceAdapter extends ArrayAdapter<Item> {
     private Context mContext;
     private ArrayList<Item> items = new ArrayList<>();
+    private float totalCost = 0.0f;
 
-    public CustomListView(Context context, ArrayList<Item> items) {
+    public CustomInvoiceAdapter(Context context, ArrayList<Item> items) {
         super(context,0 , items);
         this.mContext = context;
         this.items = items;
@@ -28,15 +28,18 @@ public class CustomListView extends ArrayAdapter<Item> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View listItem = convertView;
         if(listItem == null) {
-            listItem = LayoutInflater.from(mContext).inflate(R.layout.listview_layout,parent,false);
+            listItem = LayoutInflater.from(mContext).inflate(R.layout.invoice_list,parent,false);
         }
         Item item = items.get(position);
 
-        TextView itemName = listItem.findViewById(R.id.firstLine);
+        TextView itemName = listItem.findViewById(R.id.itemNameInvoice);
         itemName.setText(item.getItemName());
 
-        TextView itemCost = listItem.findViewById(R.id.countlabel);
-        itemCost.setText("$"+item.getCost());
+        TextView itemQuantity = listItem.findViewById(R.id.itemQuantityInvoice);
+        itemQuantity.setText(""+item.getNumberOfServings());
+
+        TextView itemCost = listItem.findViewById(R.id.itemCostInvoice);
+        itemCost.setText("$"+item.getCost()*item.getNumberOfServings());
 
         return listItem;
     }

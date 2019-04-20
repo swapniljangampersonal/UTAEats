@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".InvoiceActivity"
+    android:id="@+id/invoiceLayout">
+
+    <TextView
+        android:id="@+id/titleItemNameInvoice"
+        android:layout_width="89dp"
+        android:layout_height="39dp"
+        android:text="Item Name" />
+
+    <TextView
+        android:id="@+id/titleItemQuantityInvoice"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/titleItemNameInvoice"
+        android:text="Item Quantity" />
+
+    <TextView
+        android:id="@+id/titleItemCostInvoice"
+        android:layout_width="154dp"
+        android:layout_height="42dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:text="Item Cost" />
+
+    <ListView
+        android:id="@+id/invoiceListView"
+        android:layout_width="match_parent"
+        android:layout_height="242dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="86dp">
+
+    </ListView>
+
+    <TextView
+        android:id="@+id/totalInvoiceLabel"
+        android:layout_width="64dp"
+        android:layout_height="30dp"
+        android:layout_above="@+id/invoiceSave"
+        android:layout_alignEnd="@+id/doneInvoice"
+        android:layout_marginEnd="262dp"
+        android:layout_marginBottom="41dp"
+        android:text="Total: " />
+
+    <TextView
+        android:id="@+id/totalInvoiceCost"
+        android:layout_width="64dp"
+        android:layout_height="30dp"
+        android:layout_above="@+id/invoiceSave"
+        android:layout_alignEnd="@+id/doneInvoice"
+        android:layout_marginEnd="195dp"
+        android:layout_marginBottom="40dp"
+        android:text="$XX.00" />
+
+    <Button
+        android:id="@+id/invoiceSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="-38dp"
+        android:layout_marginBottom="28dp"
+        android:layout_toEndOf="@+id/titleItemNameInvoice"
+        android:onClick="saveAsPDF"
+        android:text="Save Invoice" />
+
+    <Button
+        android:id="@+id/doneInvoice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="149dp"
+        android:layout_marginBottom="26dp"
+        android:layout_toEndOf="@+id/titleItemNameInvoice"
+        android:text="Done" />
+
+</RelativeLayout>

@@ -3,23 +3,22 @@ package utaeats.uta.mav.utaeats;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.view.View;
+import android.support.v7.app.AppCompatActivity;
 
-public class PaymentActivity extends AppCompatActivity {
+public class FeedbackActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_payment);
+        setContentView(R.layout.activity_feedback);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    public void callInvoice(View view) {
-        Intent i = new Intent(this, InvoiceActivity.class);
+    public void submitComment(View view) {
+        Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         finish();
     }
+
 }

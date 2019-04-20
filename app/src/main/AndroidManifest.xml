@@ -4,6 +4,8 @@
     package="utaeats.uta.mav.utaeats">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -36,6 +38,25 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="utaeats.uta.mav.utaeats.CartActivity" />
         </activity>
+        <activity
+            android:name=".FeedbackActivity"
+            android:label="@string/title_activity_feedback"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="utaeats.uta.mav.utaeats.MainActivity" />
+        </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="utaeats.uta.mav.utaeats.MainActivity" />
+        </activity>
+        <activity
+            android:name=".InvoiceActivity"
+            android:label="@string/title_activity_invoice"></activity>
     </application>
 
 </manifest>

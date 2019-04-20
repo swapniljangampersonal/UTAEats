@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/titleBarColor</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorHint">@color/buttonColor</item>
     </style>
 
     <style name="PrimaryButton" parent="Theme.AppCompat">
