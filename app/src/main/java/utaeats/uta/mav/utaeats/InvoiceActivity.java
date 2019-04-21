@@ -27,11 +27,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import utaeats.uta.mav.models.Item;
+import utaeats.uta.mav.models.Items;
 
 public class InvoiceActivity extends AppCompatActivity {
 
-    ArrayList<Item> items = new ArrayList<Item>();
+    ArrayList<Items> items = new ArrayList<Items>();
     private ListView listView;
     private CustomInvoiceAdapter customListView;
     private RelativeLayout invoiceLayout;
@@ -56,7 +56,7 @@ public class InvoiceActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.invoiceListView);
 
-        Item item = new Item("panipuri",13.5f,2,"South Campus",true,"https://dummyimage.com/400x400/0011ff/000000.png");
+        Items item = new Items("someid","panipuri","2","13.5","South Campus","Image/panipuri.jpg");
         items.add(item);
         items.add(item);
         items.add(item);
@@ -74,9 +74,9 @@ public class InvoiceActivity extends AppCompatActivity {
         listView.setAdapter(customListView);
 
         float totalCost = 0.0f;
-        for (Item itemloop:items
+        for (Items itemloop:items
              ) {
-            totalCost += itemloop.getCost()*itemloop.getNumberOfServings();
+            totalCost += Float.parseFloat(itemloop.getCost()) * Integer.parseInt(itemloop.getNo_of_servings());
         }
 
         TextView totalCostView = findViewById(R.id.totalInvoiceCost);

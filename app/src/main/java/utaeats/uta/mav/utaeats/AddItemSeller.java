@@ -170,7 +170,8 @@ public class AddItemSeller extends Activity {
         String item_address = pickupadd.getText().toString();
         String item_serves = servings.getText().toString();
 
-        Items items = new Items(item_id,item_name,item_serves,item_cost,item_address);
+
+        Items items = new Items(item_id,item_name,item_serves,item_cost,item_address, "Image/panipuri.jpg");
         databaseReference.child(item_id).setValue(items);
 
     }

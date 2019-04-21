@@ -12,14 +12,14 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-import utaeats.uta.mav.models.Item;
+import utaeats.uta.mav.models.Items;
 
-public class CustomListView extends ArrayAdapter<Item> {
+public class CustomListView extends ArrayAdapter<Items> {
 
     private Context mContext;
-    private ArrayList<Item> items = new ArrayList<>();
+    private ArrayList<Items> items = new ArrayList<>();
 
-    public CustomListView(Context context, ArrayList<Item> items) {
+    public CustomListView(Context context, ArrayList<Items> items) {
         super(context,0 , items);
         this.mContext = context;
         this.items = items;
@@ -31,7 +31,7 @@ public class CustomListView extends ArrayAdapter<Item> {
         if(listItem == null) {
             listItem = LayoutInflater.from(mContext).inflate(R.layout.listview_layout,parent,false);
         }
-        Item item = items.get(position);
+        Items item = items.get(position);
         ImageView imageView = listItem.findViewById(R.id.icon);
         Glide.with(this.mContext).load(item.getImage()).into(imageView);
 

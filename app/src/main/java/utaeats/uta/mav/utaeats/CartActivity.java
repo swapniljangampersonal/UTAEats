@@ -15,11 +15,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import utaeats.uta.mav.models.Item;
+import utaeats.uta.mav.models.Items;
 
 public class CartActivity extends AppCompatActivity {
 
-    ArrayList<Item> items = new ArrayList<Item>();
+    ArrayList<Items> items = new ArrayList<Items>();
     private ListView listView;
     private CustomListView customListView;
 
@@ -35,7 +35,7 @@ public class CartActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.itemList);
 
 //        DB method to get items in arraylist
-        Item item = new Item("panipuri",13.5f,2,"South Campus",true,"https://dummyimage.com/400x400/0011ff/000000.png");
+        Items item = new Items("someid","panipuri","2","13.5","South Campus","Image/panipuri.jpg");
         items.add(item);
         items.add(item);
         items.add(item);

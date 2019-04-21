@@ -9,14 +9,14 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import utaeats.uta.mav.models.Item;
+import utaeats.uta.mav.models.Items;
 
-public class CustomInvoiceAdapter extends ArrayAdapter<Item> {
+public class CustomInvoiceAdapter extends ArrayAdapter<Items> {
     private Context mContext;
-    private ArrayList<Item> items = new ArrayList<>();
+    private ArrayList<Items> items = new ArrayList<>();
     private float totalCost = 0.0f;
 
-    public CustomInvoiceAdapter(Context context, ArrayList<Item> items) {
+    public CustomInvoiceAdapter(Context context, ArrayList<Items> items) {
         super(context,0 , items);
         this.mContext = context;
         this.items = items;
@@ -28,16 +28,16 @@ public class CustomInvoiceAdapter extends ArrayAdapter<Item> {
         if(listItem == null) {
             listItem = LayoutInflater.from(mContext).inflate(R.layout.invoice_list,parent,false);
         }
-        Item item = items.get(position);
+        Items item = items.get(position);
 
         TextView itemName = listItem.findViewById(R.id.itemNameInvoice);
         itemName.setText(item.getItemName());
 
         TextView itemQuantity = listItem.findViewById(R.id.itemQuantityInvoice);
-        itemQuantity.setText(""+item.getNumberOfServings());
+        itemQuantity.setText(""+item.getNo_of_servings());
 
         TextView itemCost = listItem.findViewById(R.id.itemCostInvoice);
-        itemCost.setText("$"+item.getCost()*item.getNumberOfServings());
+        itemCost.setText("$"+Float.parseFloat(item.getCost())*Integer.parseInt(item.getNo_of_servings()));
 
         return listItem;
     }

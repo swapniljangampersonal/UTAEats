@@ -2,6 +2,8 @@ package utaeats.uta.mav.utaeats;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import utaeats.uta.mav.models.Item;
+import utaeats.uta.mav.models.Items;
 
 public class FeedbackActivity extends AppCompatActivity {
 
@@ -18,10 +20,13 @@ public class FeedbackActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(Html.fromHtml("<font color='#35838F'>Feedback</font>"));
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Get this item from order
-        Item item = new Item("panipuri",13.5f,2,"South Campus",true,"https://dummyimage.com/400x400/0011ff/000000.png");
+        Items item = new Items("someid","panipuri","2","13.5","South Campus","Image/panipuri.jpg");
 
         TextView itemName = findViewById(R.id.itemNameFeedback);
         itemName.setText(item.getItemName());

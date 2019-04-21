@@ -1,20 +1,15 @@
 package utaeats.uta.mav.controller;
 
-import android.support.annotation.NonNull;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import utaeats.uta.mav.models.Item;
+import utaeats.uta.mav.models.Items;
 
 public class DBMgr {
 
-    public ArrayList<Item> getItem(){
+    public ArrayList<Items> getItem(){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Hello");
 

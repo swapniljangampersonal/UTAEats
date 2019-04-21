@@ -7,15 +7,19 @@ public class Items {
     private String No_of_servings;
     private String cost;
     private String pickupAdd;
-    //private String image_ID;
+    private String image;
 
-    public Items(String itemID, String itemName, String no_of_servings, String cost, String pickupAdd) {
+    public Items(String itemID, String itemName, String no_of_servings, String cost, String pickupAdd, String image) {
         this.itemID = itemID;
         this.ItemName = itemName;
         this.No_of_servings = no_of_servings;
         this.cost = cost;
         this.pickupAdd = pickupAdd;
-        //this.image_ID = image_ID;
+        this.image = image;
+    }
+
+    public Items(){
+
     }
 
     public String getItemID() {
@@ -58,11 +62,11 @@ public class Items {
         this.pickupAdd = pickupAdd;
     }
 
-    /*public String getImage() {
-        return image_ID;
+    public String getImage() {
+        return image;
     }
 
-    public void setImage(String image_ID) {
-        this.image_ID = image_ID;
-    }*/
+    public void setImage(String image) {
+        this.image = image;
+    }
 }
