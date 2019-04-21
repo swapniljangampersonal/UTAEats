@@ -1,17 +1,15 @@
 package utaeats.uta.mav.utaeats;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
+
+import utaeats.uta.mav.models.Item;
 
 public class CustomInvoiceAdapter extends ArrayAdapter<Item> {
     private Context mContext;

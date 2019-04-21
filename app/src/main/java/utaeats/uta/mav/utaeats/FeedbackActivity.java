@@ -2,7 +2,6 @@ package utaeats.uta.mav.utaeats;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
 import android.view.MenuItem;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import utaeats.uta.mav.utaeats.MainActivity;
+import utaeats.uta.mav.models.Item;
 
 public class FeedbackActivity extends AppCompatActivity {
 

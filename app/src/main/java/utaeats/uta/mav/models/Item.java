@@ -1,4 +1,4 @@
-package utaeats.uta.mav.utaeats;
+package utaeats.uta.mav.models;
 
 public class Item {
     private String itemName;

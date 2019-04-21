@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import utaeats.uta.mav.models.Item;
+
 public class CartActivity extends AppCompatActivity {
 
     ArrayList<Item> items = new ArrayList<Item>();

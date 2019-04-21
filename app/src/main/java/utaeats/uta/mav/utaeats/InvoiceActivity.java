@@ -10,7 +10,6 @@ import android.graphics.Paint;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
@@ -25,6 +24,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import utaeats.uta.mav.models.Item;
 
 public class InvoiceActivity extends AppCompatActivity {
 
@@ -123,6 +124,26 @@ public class InvoiceActivity extends AppCompatActivity {
 
         // close the document
         Toast.makeText(this, "PDF is created!!!", Toast.LENGTH_SHORT).show();
+        openGeneratedPDF();
+    }
+
+    private void openGeneratedPDF(){
+        File file = new File("/sdcard/pdffromlayout.pdf");
+        if (file.exists())
+        {
+            Intent intent = new Intent();
+            intent.setPackage("com.adobe.reader");
+            intent.setDataAndType(Uri.fromFile(file), "application/pdf");
+
+            try
+            {
+                startActivity(intent);
+            }
+            catch(ActivityNotFoundException e)
+            {
+                Toast.makeText(this, "No Application available to view pdf", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     @Override
