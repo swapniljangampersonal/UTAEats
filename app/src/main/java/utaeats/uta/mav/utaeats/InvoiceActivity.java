@@ -11,6 +11,8 @@ import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,6 +49,9 @@ public class InvoiceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invoice);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(Html.fromHtml("<font color='#35838F'>Invoice</font>"));
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         listView = (ListView) findViewById(R.id.invoiceListView);
@@ -148,7 +153,7 @@ public class InvoiceActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, CartActivity.class);
         startActivity(i);
         finish();
     }
@@ -163,5 +168,10 @@ public class InvoiceActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void goBuyer(View view) {
+        Intent i = new Intent(this, HomeDrawerB.class);
+        startActivity(i);
+        finish();
+    }
 
 }

@@ -267,7 +267,7 @@ public class SettingsActivity extends PreferenceActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, LoginUser.class);
         startActivity(i);
         finish();
     }

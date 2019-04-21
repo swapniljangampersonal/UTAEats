@@ -38,7 +38,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, HomeDrawerB.class);
         startActivity(i);
         finish();
     }
