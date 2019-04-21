@@ -1,58 +1,118 @@
 package utaeats.uta.mav.utaeats;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 public class MainActivity extends AppCompatActivity {
+
+    DatabaseReference reference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SessionManagement sessionManagement = new SessionManagement(getApplicationContext());
+        sessionManagement.clearsession();
+
+        View decorView = getWindow().getDecorView();
+        // Hide the status bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                final SessionManagement sessiontest =new SessionManagement(getApplicationContext());
+
+                if(!sessiontest.checkLogin()){
+
+                    //User is logged in - nested condition can be checked by fetching the role from session and NO DB use
+
+                    reference = FirebaseDatabase.getInstance().getReference().child("users").child(sessiontest.getKeyId());
+                    reference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            String user_uid = dataSnapshot.child("uid").getValue().toString();
+                            String user_role = dataSnapshot.child("role").getValue().toString();
+
+                            //String user_role = sessiontest.getRole();
+
+                            if(user_role.equalsIgnoreCase("Seller")){
+
+                                //redirect to the seller add the item page or the home-page itself
+                                Toast.makeText(MainActivity.this,user_uid,Toast.LENGTH_LONG).show();
+                                Toast.makeText(MainActivity.this,user_role,Toast.LENGTH_LONG).show();
+                                callSellerPage();
+
+                            }
+                            else if (user_role.equalsIgnoreCase("Buyer")){
+
+                                //redirect to the buyer home-page
+                                Toast.makeText(MainActivity.this,user_uid,Toast.LENGTH_LONG).show();
+                                Toast.makeText(MainActivity.this,user_role,Toast.LENGTH_LONG).show();
+                                callBuyerPage();
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            Toast.makeText(MainActivity.this, "Error occurred while reading from the database", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                final Intent mainIntent = new Intent(MainActivity.this,RegisterUser.class);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                MainActivity.this.startActivity(mainIntent);
+                MainActivity.this.finish();
+
+
+                //Intent i = new Intent(MainActivity.this, RegisterUser.class);
+                //startActivity(i);
+            }
+        }, 6500);
+
+
+
     }
 
-    public void openCart(View v) {
-        Intent i = new Intent(this, CartActivity.class);
-        startActivity(i);
-        finish();
+    public void callSellerPage(){
+
+        final Intent mainIntent = new Intent(MainActivity.this, HomeDrawerSeller.class);
+        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        MainActivity.this.startActivity(mainIntent);
+        MainActivity.this.finish();
+
     }
 
-    public void openFeedback(View v) {
-        Intent i = new Intent(this, FeedbackActivity.class);
-        startActivity(i);
-        finish();
+    public void callBuyerPage(){
+
+        //redirect to the buyer class
+        final Intent i = new Intent(MainActivity.this, HomeDrawerB.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        MainActivity.this.startActivity(i);
+        MainActivity.this.finish();
     }
-
-    public void openSettings(View view) {
-        Intent i = new Intent(this, SettingsActivity.class);
-        startActivity(i);
-        finish();
-    }
-
-    public void cancelOrder(View view) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this)
-                .setTitle("Are you sure you want to cancel the order?")
-                .setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast t = Toast.makeText(getApplicationContext(), "Cancelled Order",Toast.LENGTH_LONG);
-                        t.show();
-                    }
-                })
-                .setNegativeButton("GO BACK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast t = Toast.makeText(getApplicationContext(), "Back Button Pressed",Toast.LENGTH_LONG);
-                        t.show();
-                    }
-                });
-
-        alertDialog.show();
-    }
-
 }
+

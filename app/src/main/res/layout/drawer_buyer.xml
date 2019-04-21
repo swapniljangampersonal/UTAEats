@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".HomeDrawerB">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Buyer page"
+        android:textColor="@color/colorlogo"
+        android:textSize="8pt"
+        android:layout_marginTop="100dp"
+        android:layout_marginStart="100dp"/>
+
+</RelativeLayout>

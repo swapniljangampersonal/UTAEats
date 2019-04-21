@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddItemSeller">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/id1"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/tabcolor"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            android:layout_gravity="fill_horizontal">
+
+            <ImageButton
+                android:id="@+id/home"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_home"
+                android:layout_marginRight="20dp"
+                android:layout_gravity="right"
+                android:backgroundTint="@color/colorAccent"
+                android:clickable="true"
+                android:onClick="TakemeHome"/>
+
+            <!--ImageButton
+                android:id="@+id/back_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_back_button"
+                android:layout_marginLeft="20dp"
+                android:layout_gravity="left"
+                android:backgroundTint="@color/colorAccent"
+                android:onClick="Takemeback"/-->
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout1"
+        android:layout_below="@+id/id1"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="10dp">
+
+        <!--ImageView
+            android:id="@+id/item_picture"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:clickable="true"
+            android:src="@mipmap/ic_launcher"/-->
+
+        <ImageButton
+            android:id="@+id/item_picture"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_weight="1"
+            android:src="@android:drawable/ic_menu_gallery" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/layout1"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="40dp">
+
+        <EditText
+            android:id="@+id/name_of_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Name of Item"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:textStyle="bold"
+            android:textColorHint="@color/colorlogo"/>
+
+        <EditText
+            android:id="@+id/servings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Serves # of People"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="5dp"
+            android:textStyle="bold"
+            android:textColorHint="@color/colorlogo"/>
+
+        <EditText
+            android:id="@+id/cost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Cost($)"
+            android:inputType="numberDecimal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="5dp"
+            android:textStyle="bold"
+            android:textColorHint="@color/colorlogo"/>
+
+        <EditText
+            android:id="@+id/pickup_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Pickup Address"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="5dp"
+            android:textColorHint="@color/colorlogo"
+            android:ems="20"
+            android:textStyle="bold"
+            android:inputType="textPostalAddress"/>
+
+        <Button
+            android:id="@+id/save_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginVertical="40dp"
+            android:textAlignment="center"
+            android:text="SAVE ITEM"
+            android:textStyle="bold"
+            android:background="@color/colorlogo"
+            android:textColor="@color/colorWhite"
+            android:textSize="8pt"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

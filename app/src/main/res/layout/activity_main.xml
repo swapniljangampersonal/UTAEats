@@ -1,62 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    android:theme="@style/HiddenTitleTheme">
 
-    <Button
-        android:id="@+id/addtocartbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="108dp"
-        android:layout_marginTop="133dp"
-        android:onClick="openCart"
-        android:text="Add to cart"
-        tools:layout_editor_absoluteX="136dp"
-        tools:layout_editor_absoluteY="279dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:background="@color/colorWhite"
+        android:theme="@style/HiddenTitleTheme">
 
-    <Button
-        android:id="@+id/settingsBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/addtocartbtn"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="119dp"
-        android:layout_marginTop="197dp"
-        android:onClick="openSettings"
-        android:text="Settings"
-        tools:layout_editor_absoluteX="136dp"
-        tools:layout_editor_absoluteY="342dp" />
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="50dp"
+            android:src="@drawable/logo"
+            android:scaleType="fitCenter"/>
 
-    <Button
-        android:id="@+id/feedbackBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/addtocartbtn"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="117dp"
-        android:layout_marginTop="122dp"
-        android:onClick="openFeedback"
-        android:text="Feedback"
-        tools:layout_editor_absoluteX="136dp"
-        tools:layout_editor_absoluteY="342dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="15dp"
+            android:text="UTAEats"
+            android:textSize="16pt"
+            android:textColor="#000000"
+            android:textStyle="bold"/>
 
-    <Button
-        android:id="@+id/cancelOrderBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/addtocartbtn"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="99dp"
-        android:layout_marginTop="42dp"
-        android:onClick="cancelOrder"
-        android:text="Cancel Order"
-        tools:layout_editor_absoluteX="136dp"
-        tools:layout_editor_absoluteY="342dp" />
+    </LinearLayout>
 
 </RelativeLayout>
