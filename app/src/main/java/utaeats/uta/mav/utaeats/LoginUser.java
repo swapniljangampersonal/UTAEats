@@ -96,7 +96,7 @@ public class LoginUser extends AppCompatActivity {
                             else{
 
                                 //calling the seller home activity
-                                Intent i_buyer = new Intent(LoginUser.this, HomeDrawerB.class);
+                                Intent i_buyer = new Intent(LoginUser.this, FoodActivity.class);
                                 i_buyer.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 i_buyer.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 i_buyer.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);

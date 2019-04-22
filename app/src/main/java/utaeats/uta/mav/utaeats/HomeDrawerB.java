@@ -55,4 +55,17 @@ public class HomeDrawerB extends AppCompatActivity {
         alertDialog.show();
     }
 
+    public void logout(View view){
+        //code here
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                SessionManagement sessionManagement = new SessionManagement(getApplicationContext());
+                sessionManagement.logoutUser();
+            }
+        });
+    }
+
 }

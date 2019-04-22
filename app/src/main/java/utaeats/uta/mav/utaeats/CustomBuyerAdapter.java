@@ -5,18 +5,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
 import utaeats.uta.mav.models.Items;
 
-public class CustomInvoiceAdapter extends ArrayAdapter<Items> {
+public class CustomBuyerAdapter extends ArrayAdapter<Items> {
     private Context mContext;
     private ArrayList<Items> items = new ArrayList<>();
     private float totalCost = 0.0f;
 
-    public CustomInvoiceAdapter(Context context, ArrayList<Items> items) {
+    public CustomBuyerAdapter(Context context, ArrayList<Items> items) {
         super(context,0 , items);
         this.mContext = context;
         this.items = items;
@@ -26,21 +29,21 @@ public class CustomInvoiceAdapter extends ArrayAdapter<Items> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View listItem = convertView;
         if(listItem == null) {
-            listItem = LayoutInflater.from(mContext).inflate(R.layout.invoice_list,parent,false);
+            listItem = LayoutInflater.from(mContext).inflate(R.layout.buyer_list,parent,false);
         }
         Items item = items.get(position);
 
-        TextView itemName = listItem.findViewById(R.id.itemNameInvoice);
+        ImageView imageView = listItem.findViewById(R.id.buyerItemImage);
+        Glide.with(this.mContext).load(item.getImage()).into(imageView);
+
+        TextView itemName = listItem.findViewById(R.id.buyerItemName);
         itemName.setText(item.getItemName());
 
-        TextView itemQuantity = listItem.findViewById(R.id.itemQuantityInvoice);
+        TextView itemQuantity = listItem.findViewById(R.id.buyerItemQuantity);
         itemQuantity.setText(""+item.getNo_of_servings());
 
-        TextView itemAddress = listItem.findViewById(R.id.buyerItemLocation);
-        itemAddress.setText(item.getPickupAdd());
-
-        TextView itemCost = listItem.findViewById(R.id.itemCostInvoice);
-        itemCost.setText("$"+Float.parseFloat(item.getCost())*Integer.parseInt(item.getNo_of_servings()));
+        TextView itemCost = listItem.findViewById(R.id.buyerItemCost);
+        itemCost.setText("$"+item.getCost());
 
         return listItem;
     }

@@ -69,4 +69,16 @@ public class Items {
     public void setImage(String image) {
         this.image = image;
     }
+
+    @Override
+    public String toString() {
+        return "Items{" +
+                "itemID='" + itemID + '\'' +
+                ", ItemName='" + ItemName + '\'' +
+                ", No_of_servings='" + No_of_servings + '\'' +
+                ", cost='" + cost + '\'' +
+                ", pickupAdd='" + pickupAdd + '\'' +
+                ", image='" + image + '\'' +
+                '}';
+    }
 }

@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import com.google.firebase.database.DataSnapshot;
@@ -23,36 +24,38 @@ public class FoodActivity extends AppCompatActivity {
     ListView listView;
     FirebaseDatabase database;
     DatabaseReference ref;
-    ArrayList<String> list;
-    ArrayAdapter<String> adapter;
+    ArrayList<Items> itemList;
+    CustomBuyerAdapter adapter;
     Items item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_retrieve);
+        setContentView(R.layout.drawer_buyer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(Html.fromHtml("<font color='#35838F'>UTAEats</font>"));
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+//        final SessionManagement session = new SessionManagement(getApplicationContext());
+//        final String id = session.getKeyId();
 
-        item = new Items();
         listView = (ListView) findViewById(R.id.listview);
           database = FirebaseDatabase.getInstance();
-        ref = database.getReference("Food");
-        list= new ArrayList<>();
-        adapter= new ArrayAdapter<String>(this, R.layout.user_info, R.id.editText1, list);
+        ref = database.getReference().child("items");
+        final String id = ref.push().getKey();
+        itemList= new ArrayList<>();
         ref.addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                  for (DataSnapshot ds: dataSnapshot.getChildren())
                    {
-                            item=ds.getValue(Items.class);
-                          list.add(item.getItemName()+ " "+ item.getCost());
+                       Items itemtest = ds.getValue(Items.class);
+                          itemList.add(itemtest);
                    }
+                   adapter = new CustomBuyerAdapter(getApplicationContext(), itemList);
                    listView.setAdapter(adapter);
+
             }
 
             @Override
@@ -62,5 +65,18 @@ public class FoodActivity extends AppCompatActivity {
         }
 
         );
+    }
+
+    public void logout(View view){
+        //code here
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                SessionManagement sessionManagement = new SessionManagement(getApplicationContext());
+                sessionManagement.logoutUser();
+            }
+        });
     }
 }

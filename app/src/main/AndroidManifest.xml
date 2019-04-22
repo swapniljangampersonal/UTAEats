@@ -20,6 +20,7 @@
         <activity android:name=".RegisterUser" />
         <activity android:name=".Settings" />
         <activity android:name=".HomeDrawerSeller" />
+        <activity android:name=".FoodActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
