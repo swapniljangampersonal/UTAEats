@@ -45,6 +45,8 @@ public class CustomBuyerAdapter extends ArrayAdapter<Items> {
         TextView itemCost = listItem.findViewById(R.id.buyerItemCost);
         itemCost.setText("$"+item.getCost());
 
+        System.out.println(item + " asdfsadfasdf");
+
         return listItem;
     }
 }

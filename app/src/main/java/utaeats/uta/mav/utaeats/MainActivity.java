@@ -5,14 +5,23 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +34,16 @@ public class MainActivity extends AppCompatActivity {
 
         SessionManagement sessionManagement = new SessionManagement(getApplicationContext());
         sessionManagement.clearsession();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // mAuth is your current firebase auth instance
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+            @Override
+            public void onSuccess(InstanceIdResult instanceIdResult) {
+                String deviceToken = instanceIdResult.getToken();
+                // Do whatever you want with your token now
+                // i.e. store it on SharedPreferences or DB
+                // or directly send it to server
+            }
+        });
 
         View decorView = getWindow().getDecorView();
         // Hide the status bar.
@@ -76,7 +95,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 }
-                final Intent mainIntent = new Intent(MainActivity.this,RegisterUser.class);
+                //Temporary change
+                //final Intent mainIntent = new Intent(MainActivity.this,RegisterUser.class);
+                final Intent mainIntent = new Intent(MainActivity.this,CartActivity.class);
                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);

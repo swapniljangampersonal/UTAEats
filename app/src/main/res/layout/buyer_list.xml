@@ -1,5 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--<RelativeLayout-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="131dp"-->
+    <!--android:id="@+id/buyer_list">-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/buyerItemImage"-->
+        <!--android:layout_width="98dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:contentDescription="TODO"-->
+        <!--android:src="@mipmap/ic_test" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/buyerItemQuantity"-->
+        <!--android:layout_width="72dp"-->
+        <!--android:layout_height="42dp"-->
+        <!--android:singleLine="true"-->
+        <!--android:text="Quantity"-->
+        <!--android:layout_marginLeft="100dp"-->
+        <!--android:layout_marginTop="60dp"-->
+        <!--android:textSize="12sp" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/buyerItemLocation"-->
+        <!--android:layout_width="87dp"-->
+        <!--android:layout_height="20dp"-->
+        <!--android:layout_alignTop="@+id/buyerItemQuantity"-->
+        <!--android:layout_marginLeft="100dp"-->
+        <!--android:layout_marginTop="32dp"-->
+        <!--android:singleLine="true"-->
+        <!--android:text="Description"-->
+        <!--android:textSize="12sp" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/buyerItemCost"-->
+        <!--android:layout_width="99dp"-->
+        <!--android:layout_height="36dp"-->
+        <!--android:layout_marginLeft="350dp"-->
+        <!--android:layout_marginTop="100dp"-->
+        <!--android:singleLine="true"-->
+        <!--android:text="$xx"-->
+        <!--android:textSize="12sp" />-->
+
+    <!--<ImageButton-->
+        <!--android:id="@+id/btnDelete"-->
+        <!--android:layout_width="56dp"-->
+        <!--android:layout_height="55dp"-->
+        <!--android:layout_marginTop="32dp"-->
+        <!--android:layout_marginLeft="350dp"-->
+        <!--android:background="#FAFAFA"-->
+        <!--android:onClick="deleteAlert"-->
+        <!--android:src="@drawable/ic_add_box_black_24dp" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/buyerItemName"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="36dp"-->
+        <!--android:text="Example application"-->
+        <!--android:textSize="16sp"-->
+        <!--android:layout_marginLeft="100dp"-->
+        <!--android:layout_marginTop="27dp"-->
+        <!--/>-->
+
+<!--</RelativeLayout>-->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"

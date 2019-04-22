@@ -13,9 +13,13 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
 import utaeats.uta.mav.models.Items;
+import utaeats.uta.mav.models.feedback;
 
 public class CartActivity extends AppCompatActivity {
 
@@ -87,6 +91,15 @@ public class CartActivity extends AppCompatActivity {
     }
 
     public void placeOrder(View view) {
+        // Insert items from cart in orders table
+        Items item = new Items("Lcw3zEzV4rKIDDZabc","panipuri","2","2.99","Meadowrun","Image/panipuri.jpg");
+        // Firebase code to insert in database
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("order");
+
+        myRef.child("order").setValue(item);
+
         Intent i = new Intent(this, PaymentActivity.class);
         startActivity(i);
         finish();
