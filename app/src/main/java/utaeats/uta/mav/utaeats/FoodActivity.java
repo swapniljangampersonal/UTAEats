@@ -170,11 +170,10 @@ public class FoodActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    public boolean openCart(MenuItem v) {
+    public void openCart(View v) {
         Intent i = new Intent(this, CartActivity.class);
         startActivity(i);
         finish();
-        return true;
     }
 
     public boolean openFeedback(MenuItem v) {

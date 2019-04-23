@@ -2,6 +2,8 @@ package utaeats.uta.mav.utaeats;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,19 +13,32 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.UUID;
 
 import utaeats.uta.mav.models.Items;
 
@@ -39,11 +54,11 @@ public class AddItemSeller extends Activity {
 
     private DatabaseReference databaseReference;
 
-    //private StorageReference mStorageRef;
+    private StorageReference mStorageRef;
 
-    //private Uri imageUri;
+    private Uri imageUri;
 
-    //public static final String FB_STORAGE_PATH = "image/";
+    public static final String FB_STORAGE_PATH = "Image/";
 
     //public static final String FB_DATABASE_PATH = "image/";
 
@@ -51,6 +66,8 @@ public class AddItemSeller extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_item_seller);
         Toolbar toolbar = findViewById(R.id.toolbar);
+
+        signIn();
 
         FirebaseApp.initializeApp(AddItemSeller.this);
 
@@ -87,9 +104,11 @@ public class AddItemSeller extends Activity {
             @Override
             public void onClick(View view) {
 
-                AddItem();
+                uploadImage();
             }
         });
+
+
 
         /*back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,17 +181,93 @@ public class AddItemSeller extends Activity {
 
     }
 
-    public void AddItem(){
+    private void signIn() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            // do your stuff
+        } else {
+            signInAnonymously(mAuth);
+        }
+    }
 
-        String item_id = databaseReference.push().getKey();
-        String item_name = itemname.getText().toString();
-        String item_cost = itemcost.getText().toString();
-        String item_address = pickupadd.getText().toString();
-        String item_serves = servings.getText().toString();
+    private void signInAnonymously(FirebaseAuth mAuth) {
+        mAuth.signInAnonymously().addOnSuccessListener(this, new  OnSuccessListener<AuthResult>() {
+            @Override
+            public void onSuccess(AuthResult authResult) {
+                // do your stuff
+            }
+        })
+        .addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                System.out.println("signInAnonymously:FAILURE" + exception.getMessage());
+            }
+        });
+    }
+
+    private void uploadImage() {
+        if(imageUri != null)
+        {
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            System.out.println(UUID.randomUUID().toString()+"."+getImageExt(imageUri)+" sadfgh");
+            FirebaseOptions opts = FirebaseApp.getInstance().getOptions();
+            System.out.println("Bucket= "+opts.getStorageBucket());
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            storage.setMaxDownloadRetryTimeMillis(100000);
+            mStorageRef = storage.getReferenceFromUrl("gs://utaeats-7e5ed.appspot.com/");
+            final String uploadFileName = UUID.randomUUID().toString()+"."+getImageExt(imageUri);
+            final StorageReference ref = mStorageRef.child(FB_STORAGE_PATH+ uploadFileName);
+            ref.putFile(imageUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            AddItem(uploadFileName);
+                            Toast.makeText(getApplicationContext(), "Uploaded", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(), "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        } else {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this)
+                .setTitle("Please select an image")
+                .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+            alertDialog.show();
+        }
+    }
+
+    public void AddItem(String imagePath){
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        storage.setMaxDownloadRetryTimeMillis(100000);
+        mStorageRef = storage.getReferenceFromUrl("gs://utaeats-7e5ed.appspot.com/");
+        final StorageReference ref = mStorageRef.child(FB_STORAGE_PATH+ imagePath);
+        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                String item_id = databaseReference.push().getKey();
+                String item_name = itemname.getText().toString();
+                String item_cost = itemcost.getText().toString();
+                String item_address = pickupadd.getText().toString();
+                String item_serves = servings.getText().toString();
 
 
-        Items items = new Items(item_id,item_name,item_serves,item_cost,item_address, "Image/panipuri.jpg");
-        databaseReference.child(item_id).setValue(items);
+                Items items = new Items(item_id,item_name,item_serves,item_cost,item_address, uri.toString());
+                databaseReference.child(item_id).setValue(items);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                exception.printStackTrace();
+            }
+        });
 
     }
 
@@ -368,17 +463,17 @@ public class AddItemSeller extends Activity {
         thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
 
         item_image.setImageBitmap(thumbnail);
-
+        imageUri = data.getData();
     }
 
     private void onSelectFromGalleryResult(Intent data) {
-
+        Uri selectedImage = null;
         Bitmap bm = null;
         String picturePath = "";
         if (data != null) {
             try {
                 bm = MediaStore.Images.Media.getBitmap(AddItemSeller.this.getContentResolver(), data.getData());
-                Uri selectedImage = data.getData();
+                selectedImage = data.getData();
                 // Toast.makeText(getActivity().getApplicationContext(),selectedImage.toString(),Toast.LENGTH_SHORT).show();
                 String[] filePath = {MediaStore.Images.Media.DATA};
                 //Toast.makeText(getActivity().getApplicationContext(), "filepath"+filePath,Toast.LENGTH_SHORT).show();
@@ -398,6 +493,7 @@ public class AddItemSeller extends Activity {
 
         item_image.setImageBitmap(BitmapFactory.decodeFile(picturePath));
         item_image.setImageBitmap(bm);
+        imageUri = selectedImage;
 
     }
 
@@ -408,11 +504,11 @@ public class AddItemSeller extends Activity {
         //imgpro.setImageBitmap(bm);
     }
 
-    /*public String getImageExt(Uri uri) {
+    public String getImageExt(Uri uri) {
 
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
-    }*/
+    }
 
 }

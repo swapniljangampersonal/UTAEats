@@ -76,7 +76,7 @@
             android:layout_marginBottom="30dp">
 
             <EditText
-                android:id="@+id/uid"
+                android:id="@+id/uid_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -89,7 +89,7 @@
                 />
 
             <EditText
-                android:id="@+id/password"
+                android:id="@+id/password_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

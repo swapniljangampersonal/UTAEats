@@ -36,9 +36,6 @@ public class CustomInvoiceAdapter extends ArrayAdapter<Items> {
         TextView itemQuantity = listItem.findViewById(R.id.itemQuantityInvoice);
         itemQuantity.setText(""+item.getNo_of_servings());
 
-        TextView itemAddress = listItem.findViewById(R.id.buyerItemLocation);
-        itemAddress.setText(item.getPickupAdd());
-
         TextView itemCost = listItem.findViewById(R.id.itemCostInvoice);
         itemCost.setText("$"+Float.parseFloat(item.getCost())*Integer.parseInt(item.getNo_of_servings()));
 

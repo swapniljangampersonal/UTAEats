@@ -10,6 +10,9 @@ import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,12 +21,12 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
+import utaeats.uta.mav.models.Cart;
 import utaeats.uta.mav.models.Items;
-import utaeats.uta.mav.models.feedback;
+import utaeats.uta.mav.models.Feedback;
 
 public class CartActivity extends AppCompatActivity {
 
-    ArrayList<Items> items = new ArrayList<Items>();
     private ListView listView;
     private CustomListView customListView;
 
@@ -38,23 +41,28 @@ public class CartActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.itemList);
 
-//        DB method to get items in arraylist
-        Items item = new Items("someid","panipuri","2","13.5","South Campus","Image/panipuri.jpg");
-        items.add(item);
-        items.add(item);
-        items.add(item);
-        items.add(item);
-        items.add(item);
-        items.add(item);
-        items.add(item);
-        items.add(item);
-        items.add(item);
-        items.add(item);
-        items.add(item);
-        items.add(item);
-
-        customListView = new CustomListView(this, items);
+        customListView = new CustomListView(this, Cart.cartItems);
         listView.setAdapter(customListView);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(final AdapterView<?> parent, View view, final int position, long id) {
+                ImageButton del =(ImageButton) view.findViewById(R.id.btnDelete);
+                del.setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View arg0) {
+                                Cart.cartItems.remove(position);
+                                Toast.makeText(getApplicationContext(),
+                                        "Deleted ListItem Number " + position, Toast.LENGTH_LONG)
+                                        .show();
+                            }
+                        });
+                Toast.makeText(getApplicationContext(), "Click ListItem Number " + position, Toast.LENGTH_LONG)
+                        .show();
+
+            }
+        });
     }
 
     @Override
@@ -69,26 +77,7 @@ public class CartActivity extends AppCompatActivity {
         finish();
     }
 
-    public void deleteAlert(View view) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this)
-                .setTitle("Are you sure you want to delete the item?")
-                .setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast t = Toast.makeText(getApplicationContext(), "Deleted",Toast.LENGTH_LONG);
-                        t.show();
-                    }
-                })
-                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast t = Toast.makeText(getApplicationContext(), "Cancelled",Toast.LENGTH_LONG);
-                        t.show();
-                    }
-                });
 
-        alertDialog.show();
-    }
 
     public void placeOrder(View view) {
         // Insert items from cart in orders table
@@ -107,7 +96,7 @@ public class CartActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(this, HomeDrawerB.class);
+        Intent i = new Intent(this, FoodActivity.class);
         startActivity(i);
         finish();
     }

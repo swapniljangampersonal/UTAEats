@@ -1,8 +1,10 @@
 package utaeats.uta.mav.utaeats;
 
+import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -10,10 +12,14 @@ import android.graphics.Paint;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -22,11 +28,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import utaeats.uta.mav.models.Cart;
 import utaeats.uta.mav.models.Items;
 
 public class InvoiceActivity extends AppCompatActivity {
@@ -56,21 +68,7 @@ public class InvoiceActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.invoiceListView);
 
-        Items item = new Items("someid","panipuri","2","13.5","South Campus","Image/panipuri.jpg");
-        items.add(item);
-        items.add(item);
-        items.add(item);
-        items.add(item);
-        items.add(item);
-        items.add(item);
-        items.add(item);
-        items.add(item);
-        items.add(item);
-        items.add(item);
-        items.add(item);
-        items.add(item);
-
-        customListView = new CustomInvoiceAdapter(this, items);
+        customListView = new CustomInvoiceAdapter(this, Cart.cartItems);
         listView.setAdapter(customListView);
 
         float totalCost = 0.0f;
@@ -83,7 +81,43 @@ public class InvoiceActivity extends AppCompatActivity {
         totalCostView.setText("$"+String.valueOf(totalCost));
     }
 
-    public void saveAsPDF(View view){
+    public void saveAsPDF(View view) {
+        // Here, thisActivity is the current activity
+        FirebaseInstanceId.getInstance().getInstanceId()
+            .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                @Override
+                public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                    if (!task.isSuccessful()) {
+                        System.out.println(task.getException());
+                        return;
+                    }
+
+                    // Get new Instance ID token
+                    String token = task.getResult().getToken();
+                    System.out.println("Token = "+token);
+                }
+            });
+        if (ContextCompat.checkSelfPermission(getApplicationContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        0);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            } else {
+            save();
+        }
+    }
+
+    public void save(){
         try {
             invoiceLayout = findViewById(R.id.invoiceLayout);
             bitmap = loadBitmapFromView(invoiceLayout, invoiceLayout.getWidth(), invoiceLayout.getHeight());
@@ -169,7 +203,7 @@ public class InvoiceActivity extends AppCompatActivity {
     }
 
     public void goBuyer(View view) {
-        Intent i = new Intent(this, HomeDrawerB.class);
+        Intent i = new Intent(this, FoodActivity.class);
         startActivity(i);
         finish();
     }

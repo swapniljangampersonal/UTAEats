@@ -34,16 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
         SessionManagement sessionManagement = new SessionManagement(getApplicationContext());
         sessionManagement.clearsession();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // mAuth is your current firebase auth instance
-        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
-            @Override
-            public void onSuccess(InstanceIdResult instanceIdResult) {
-                String deviceToken = instanceIdResult.getToken();
-                // Do whatever you want with your token now
-                // i.e. store it on SharedPreferences or DB
-                // or directly send it to server
-            }
-        });
 
         View decorView = getWindow().getDecorView();
         // Hide the status bar.
@@ -97,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //Temporary change
                 //final Intent mainIntent = new Intent(MainActivity.this,RegisterUser.class);
-                final Intent mainIntent = new Intent(MainActivity.this,CartActivity.class);
+                final Intent mainIntent = new Intent(MainActivity.this,RegisterUser.class);
                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);

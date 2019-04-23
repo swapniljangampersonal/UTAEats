@@ -9,8 +9,16 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import utaeats.uta.mav.models.Items;
+import utaeats.uta.mav.models.Cart;
 
 public class PaymentActivity extends AppCompatActivity {
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,9 +28,18 @@ public class PaymentActivity extends AppCompatActivity {
         toolbar.setTitle(Html.fromHtml("<font color='#35838F'>Payment</font>"));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        float totalCost = 0.0f;
+        for(Items item: Cart.cartItems) {
+            totalCost += Float.parseFloat(item.getCost()) * Integer.parseInt(item.getNo_of_servings());
+        }
+
+        TextView totalCostText = findViewById(R.id.totalCost);
+        totalCostText.setText("$"+totalCost);
     }
 
     public void callInvoice(View view) {
+        databaseReference = FirebaseDatabase.getInstance().getReference("order");
         Intent i = new Intent(this, InvoiceActivity.class);
         startActivity(i);
         finish();

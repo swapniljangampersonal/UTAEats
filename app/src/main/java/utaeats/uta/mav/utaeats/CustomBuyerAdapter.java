@@ -5,13 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import utaeats.uta.mav.models.Cart;
 import utaeats.uta.mav.models.Items;
 
 public class CustomBuyerAdapter extends ArrayAdapter<Items> {
@@ -26,7 +29,7 @@ public class CustomBuyerAdapter extends ArrayAdapter<Items> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View listItem = convertView;
         if(listItem == null) {
             listItem = LayoutInflater.from(mContext).inflate(R.layout.buyer_list,parent,false);
@@ -45,7 +48,16 @@ public class CustomBuyerAdapter extends ArrayAdapter<Items> {
         TextView itemCost = listItem.findViewById(R.id.buyerItemCost);
         itemCost.setText("$"+item.getCost());
 
-        System.out.println(item + " asdfsadfasdf");
+        ImageButton addButton = (ImageButton) listItem.findViewById(R.id.btnAdd);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Cart.cartItems.add(items.get(position));
+                Toast t = Toast.makeText(mContext, items.get(position).getItemName()+" added to cart",Toast.LENGTH_LONG);
+                t.show();
+                items.remove(position);
+            }
+        });
 
         return listItem;
     }

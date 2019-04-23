@@ -15,8 +15,8 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import utaeats.uta.mav.models.Feedback;
 import utaeats.uta.mav.models.Items;
-import utaeats.uta.mav.models.feedback;
 
 public class FeedbackActivity extends AppCompatActivity {
     EditText comment;
@@ -34,7 +34,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("feedback");
-        feedback f= new feedback(feedback_text);
+        Feedback f= new Feedback(feedback_text);
         myRef.child("feedback").child("comment").setValue(f);
 
         // Get this item from order

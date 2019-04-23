@@ -13,7 +13,7 @@ public class HomeDrawerB extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.drawer_buyer);
+        //setContentView(R.layout.drawer_buyer);
     }
 
 //    public void openCart(View v) {

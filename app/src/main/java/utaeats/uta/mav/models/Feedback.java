@@ -1,13 +1,13 @@
 package utaeats.uta.mav.models;
 
-public class feedback {
+public class Feedback {
 
     String comment;
 
-    public feedback() {
+    public Feedback() {
     }
 
-    public feedback(String comment) {
+    public Feedback(String comment) {
         this.comment = comment;
     }
 

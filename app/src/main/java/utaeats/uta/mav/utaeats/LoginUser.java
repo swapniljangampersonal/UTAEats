@@ -40,12 +40,9 @@ public class LoginUser extends AppCompatActivity {
         final SessionManagement session = new SessionManagement(getApplicationContext());
         final String id = session.getKeyId();
 
-        FirebaseApp.initializeApp(LoginUser.this);
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(id);
-
         //values from user
-        login_uid= findViewById(R.id.uid);
-        login_password= findViewById(R.id.password);
+        login_uid= findViewById(R.id.uid_login);
+        login_password= findViewById(R.id.password_login);
         login_btn= findViewById(R.id.button_login);
         final RadioButton r_seller = findViewById(R.id.radio_seller);
         RadioButton r_buyer = findViewById(R.id.radio_buyer);
@@ -60,7 +57,8 @@ public class LoginUser extends AppCompatActivity {
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-
+                FirebaseApp.initializeApp(LoginUser.this);
+                databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(id);
                 databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -83,7 +81,7 @@ public class LoginUser extends AppCompatActivity {
                             if(r_seller.isChecked())
                             {
                                 session.setRole("seller");
-                                Users users = new Users(id,user_uid,user_password,"seller");
+                                Users users = new Users(id,DB_uid,DB_password,"seller");
                                 databaseReference.setValue(users);
 
                                 //calling the seller home activity
