@@ -2,6 +2,8 @@
 
 package utaeats.uta.mav.utaeats;
 
+import utaeats.uta.mav.controller.DBMgr;
+import utaeats.uta.mav.models.Cart;
 import utaeats.uta.mav.models.Items;
 
 import android.app.AlertDialog;
@@ -55,37 +57,10 @@ public class FoodActivity extends AppCompatActivity implements NavigationView.On
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-//        final SessionManagement session = new SessionManagement(getApplicationContext());
-//        final String id = session.getKeyId();
 
         listView = (ListView) findViewById(R.id.listview);
         FirebaseApp.initializeApp(FoodActivity.this);
-          database = FirebaseDatabase.getInstance();
-        ref = database.getReference().child("items");
-        final String id = ref.push().getKey();
-        itemList= new ArrayList<>();
-        System.out.println("FoodActivity asdfsadfasdf");
-        ref.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                 for (DataSnapshot ds: dataSnapshot.getChildren())
-                   {
-                       Items itemtest = ds.getValue(Items.class);
-                       itemList.add(itemtest);
-                   }
-                    System.out.println(itemList.size() + " asdfsadfasdf");
-                   adapter = new CustomBuyerAdapter(getApplicationContext(), itemList);
-                   listView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                System.out.println("Cancelled asdfsadfasdf");
-            }
-        }
-
-        );
+        new DBMgr().getItems(getApplicationContext(), listView);
     }
 
     @Override
@@ -121,25 +96,7 @@ public class FoodActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_cancel_order) {
             // Handle the add item
-            System.out.println("in cancel order saadffs");
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this)
-                    .setTitle("Are you sure you want to cancel the order?")
-                    .setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast t = Toast.makeText(getApplicationContext(), "Cancelled Order",Toast.LENGTH_LONG);
-                            t.show();
-                        }
-                    })
-                    .setNegativeButton("GO BACK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast t = Toast.makeText(getApplicationContext(), "Back Button Pressed",Toast.LENGTH_LONG);
-                            t.show();
-                        }
-                    });
-
-            alertDialog.show();
+            cancelOrder(item);
 
         } else if (id == R.id.nav_feedback) {
             System.out.println("in feedback saadffs");
@@ -196,7 +153,9 @@ public class FoodActivity extends AppCompatActivity implements NavigationView.On
                 .setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast t = Toast.makeText(getApplicationContext(), "Cancelled Order",Toast.LENGTH_LONG);
+                        DBMgr dbMgr = new DBMgr();
+                        dbMgr.removeOrder();
+                        Toast t = Toast.makeText(getApplicationContext(), "Cancelled",Toast.LENGTH_LONG);
                         t.show();
                     }
                 })

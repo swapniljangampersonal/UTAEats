@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
+import utaeats.uta.mav.controller.DBMgr;
 import utaeats.uta.mav.models.Cart;
 import utaeats.uta.mav.models.Items;
 import utaeats.uta.mav.models.Feedback;
@@ -81,13 +82,11 @@ public class CartActivity extends AppCompatActivity {
 
     public void placeOrder(View view) {
         // Insert items from cart in orders table
-        Items item = new Items("Lcw3zEzV4rKIDDZabc","panipuri","2","2.99","Meadowrun","Image/panipuri.jpg");
+        //Items item = new Items("Lcw3zEzV4rKIDDZabc","panipuri","2","2.99","Meadowrun","Image/panipuri.jpg");
         // Firebase code to insert in database
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("order");
-
-        myRef.child("order").setValue(item);
+        DBMgr dbMgr = new DBMgr();
+        dbMgr.addOrder();
 
         Intent i = new Intent(this, PaymentActivity.class);
         startActivity(i);

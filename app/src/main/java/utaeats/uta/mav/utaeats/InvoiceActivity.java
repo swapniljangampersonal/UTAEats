@@ -38,6 +38,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import utaeats.uta.mav.controller.UTAEatsController;
 import utaeats.uta.mav.models.Cart;
 import utaeats.uta.mav.models.Items;
 
@@ -47,15 +48,7 @@ public class InvoiceActivity extends AppCompatActivity {
     private ListView listView;
     private CustomInvoiceAdapter customListView;
     private RelativeLayout invoiceLayout;
-    private Bitmap bitmap;
 
-    public static Bitmap loadBitmapFromView(View v, int width, int height) {
-        Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas c = new Canvas(b);
-        v.draw(c);
-
-        return b;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,31 +65,17 @@ public class InvoiceActivity extends AppCompatActivity {
         listView.setAdapter(customListView);
 
         float totalCost = 0.0f;
-        for (Items itemloop:items
+        for (Items itemloop:Cart.cartItems
              ) {
+            System.out.println("Calculation = "+Float.parseFloat(itemloop.getCost()) * Integer.parseInt(itemloop.getNo_of_servings()));
             totalCost += Float.parseFloat(itemloop.getCost()) * Integer.parseInt(itemloop.getNo_of_servings());
         }
-
+        System.out.println(totalCost);
         TextView totalCostView = findViewById(R.id.totalInvoiceCost);
         totalCostView.setText("$"+String.valueOf(totalCost));
     }
 
     public void saveAsPDF(View view) {
-        // Here, thisActivity is the current activity
-        FirebaseInstanceId.getInstance().getInstanceId()
-            .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                @Override
-                public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                    if (!task.isSuccessful()) {
-                        System.out.println(task.getException());
-                        return;
-                    }
-
-                    // Get new Instance ID token
-                    String token = task.getResult().getToken();
-                    System.out.println("Token = "+token);
-                }
-            });
         if (ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -113,77 +92,13 @@ public class InvoiceActivity extends AppCompatActivity {
                 // app-defined int constant. The callback method gets the
                 // result of the request.
             } else {
-            save();
-        }
-    }
-
-    public void save(){
-        try {
             invoiceLayout = findViewById(R.id.invoiceLayout);
-            bitmap = loadBitmapFromView(invoiceLayout, invoiceLayout.getWidth(), invoiceLayout.getHeight());
-            WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-            //  Display display = wm.getDefaultDisplay();
-            DisplayMetrics displaymetrics = new DisplayMetrics();
-            this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-            float hight = displaymetrics.heightPixels ;
-            float width = displaymetrics.widthPixels ;
-
-            int convertHighet = (int) hight, convertWidth = (int) width;
-
-    //        Resources mResources = getResources();
-    //        Bitmap bitmap = BitmapFactory.decodeResource(mResources, R.drawable.screenshot);
-
-            PdfDocument document = new PdfDocument();
-            PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(convertWidth, convertHighet, 1).create();
-            PdfDocument.Page page = document.startPage(pageInfo);
-
-            Canvas canvas = page.getCanvas();
-
-            Paint paint = new Paint();
-            canvas.drawPaint(paint);
-
-            bitmap = Bitmap.createScaledBitmap(bitmap, convertWidth, convertHighet, true);
-
-            paint.setColor(Color.BLUE);
-            canvas.drawBitmap(bitmap, 0, 0 , null);
-            document.finishPage(page);
-
-            // write the document content
-            String targetPdf = "/sdcard/pdffromlayout.pdf";
-            File filePath;
-            filePath = new File(targetPdf);
-
-            document.writeTo(new FileOutputStream(filePath));
-            document.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Something wrong: " + e.toString(), Toast.LENGTH_LONG).show();
-        }
-
-        // close the document
-        Toast.makeText(this, "PDF is created!!!", Toast.LENGTH_SHORT).show();
-        openGeneratedPDF();
-    }
-
-    private void openGeneratedPDF(){
-        File file = new File("/sdcard/pdffromlayout.pdf");
-        if (file.exists())
-        {
-            Intent intent = new Intent();
-            intent.setPackage("com.adobe.reader");
-            intent.setDataAndType(Uri.fromFile(file), "application/pdf");
-
-            try
-            {
-                startActivity(intent);
-            }
-            catch(ActivityNotFoundException e)
-            {
-                Toast.makeText(this, "No Application available to view pdf", Toast.LENGTH_LONG).show();
-            }
+            UTAEatsController utaEatsController = new UTAEatsController();
+            utaEatsController.save(invoiceLayout, getApplicationContext());
         }
     }
+
+
 
     @Override
     public void onBackPressed() {

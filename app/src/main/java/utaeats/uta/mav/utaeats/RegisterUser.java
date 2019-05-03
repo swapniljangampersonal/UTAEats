@@ -1,6 +1,5 @@
 package utaeats.uta.mav.utaeats;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +14,9 @@ import android.widget.Toast;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import utaeats.uta.mav.controller.DBMgr;
+import utaeats.uta.mav.models.Users;
 
 public class RegisterUser extends AppCompatActivity {
 
@@ -33,8 +35,6 @@ public class RegisterUser extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FirebaseApp.initializeApp(RegisterUser.this);
-
-        databaseReference = FirebaseDatabase.getInstance().getReference("users");
 
         findViewById(R.id.uid).requestFocus();
 
@@ -98,20 +98,8 @@ public class RegisterUser extends AppCompatActivity {
         String role = "buyer";
 
         if (!TextUtils.isEmpty(useruid) && !TextUtils.isEmpty(user_password)){
-
-            String id = databaseReference.push().getKey();
-
-
-            //setting the key to the session for later retrieval
-            SessionManagement sessionTest = new SessionManagement(getApplicationContext());
-            sessionTest.setKeyId(id);
-
-            Toast.makeText(RegisterUser.this, sessionTest.getKeyId(), Toast.LENGTH_SHORT).show();
-
-            Users users = new Users(id,useruid,user_password,role);
-            databaseReference.child(id).setValue(users);
-            uid.setText("");
-            password.setText("");
+            DBMgr dbMgr = new DBMgr();
+            dbMgr.addUser(useruid, user_password, role, getApplicationContext());
         }
         else{
             Toast.makeText(RegisterUser.this,"Please enter the details",Toast.LENGTH_LONG).show();

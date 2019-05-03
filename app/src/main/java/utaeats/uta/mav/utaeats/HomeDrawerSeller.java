@@ -12,9 +12,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
+
+import utaeats.uta.mav.models.Cart;
 
 public class HomeDrawerSeller extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    ListView listView;
+    CustomSellerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,13 @@ public class HomeDrawerSeller extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        listView = (ListView) findViewById(R.id.listviewseller);
+        System.out.println("Empty cart" + Cart.addItemSeller.isEmpty());
+        if(!Cart.addItemSeller.isEmpty()) {
+            adapter = new CustomSellerAdapter(getApplicationContext(), Cart.addItemSeller);
+            listView.setAdapter(adapter);
+        }
     }
 
     @Override

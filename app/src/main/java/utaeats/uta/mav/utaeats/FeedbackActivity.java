@@ -2,6 +2,7 @@ package utaeats.uta.mav.utaeats;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.MenuItem;
@@ -12,14 +13,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
+import utaeats.uta.mav.controller.DBMgr;
+import utaeats.uta.mav.models.Cart;
 import utaeats.uta.mav.models.Feedback;
 import utaeats.uta.mav.models.Items;
 
 public class FeedbackActivity extends AppCompatActivity {
     EditText comment;
+    ArrayList<Items> itemList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,16 +39,14 @@ public class FeedbackActivity extends AppCompatActivity {
         toolbar.setTitle(Html.fromHtml("<font color='#35838F'>Feedback</font>"));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        comment  = findViewById(R.id.feedbackEditText);
-        String feedback_text = comment.getText().toString();
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("feedback");
-        Feedback f= new Feedback(feedback_text);
-        myRef.child("feedback").child("comment").setValue(f);
+        DatabaseReference orderRef = database.getReference().child("order");
 
         // Get this item from order
-        Items item = new Items("someid","panipuri","2","13.5","South Campus","Image/panipuri.jpg");
+        itemList = new ArrayList<>();
+        System.out.println("Size feedback: "+itemList.size());
+        Items item = Cart.cartItems.get(0);
 
         TextView itemName = findViewById(R.id.itemNameFeedback);
         itemName.setText(item.getItemName());
@@ -48,14 +56,18 @@ public class FeedbackActivity extends AppCompatActivity {
     }
 
     public void submitComment(View view) {
-        Intent i = new Intent(this, MainActivity.class);
+        comment  = findViewById(R.id.feedbackEditText);
+        String feedback_text = comment.getText().toString();
+        DBMgr dbMgr = new DBMgr();
+        dbMgr.saveComment(feedback_text);
+        Intent i = new Intent(this, FoodActivity.class);
         startActivity(i);
         finish();
     }
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(this, HomeDrawerB.class);
+        Intent i = new Intent(this, FoodActivity.class);
         startActivity(i);
         finish();
     }

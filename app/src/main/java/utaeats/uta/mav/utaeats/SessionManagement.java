@@ -162,7 +162,7 @@ public class SessionManagement {
         editor.commit();
 
         // After logout redirect user to Login Activity
-        Intent i = new Intent(_context, LoginUser.class);
+        Intent i = new Intent(_context, RegisterUser.class);
 
         // Closing all the Activities
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

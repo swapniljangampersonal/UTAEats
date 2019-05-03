@@ -11,14 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import utaeats.uta.mav.models.Items;
 import utaeats.uta.mav.models.Cart;
 
 public class PaymentActivity extends AppCompatActivity {
-    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +36,6 @@ public class PaymentActivity extends AppCompatActivity {
     }
 
     public void callInvoice(View view) {
-        databaseReference = FirebaseDatabase.getInstance().getReference("order");
         Intent i = new Intent(this, InvoiceActivity.class);
         startActivity(i);
         finish();
